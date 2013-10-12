@@ -1,0 +1,7 @@
+bucket = 0 0 32 32
+chest = 33 0 32 32
+pick_axe = 66 0 32 32
+safe = 0 33 32 32
+trashcan = 33 33 32 32
+wire_cutters = 0 66 32 32
+wrench = 33 66 32 32

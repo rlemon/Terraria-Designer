@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Terraria Designer WIP</title>
+<style>
+@import url(http://fonts.googleapis.com/css?family=Press+Start+2P);
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+	font-family: 'Press Start 2P', cursive;
+}
+ul,li,div,p,span,i,img{
+	margin: 0;
+	padding: 0;
+}
+button {
+	outline: none !important;
+}
+body {
+    background-color: skyblue;
+	background-image: url(images/Background_92.png);
+	background-position: bottom center;
+	background-repeat: repeat-x;
+}
+#canvas {
+    position: absolute;
+}
+
+.toggle-label {
+	position: absolute;
+	color: #6a6;
+	font-size: 10px;
+	text-shadow: 1px 1px 2px #232;
+	top: 11px;
+	left: 11px;
+}
+#toggle-controls:checked ~ ul {
+	display: none;
+}
+#toggle-controls ~ ul {
+	display: block;
+}
+
+#tools {
+	right: 22px;
+	bottom: 22px;
+}
+
+#settings {
+	left: 22px;
+	bottom: 22px;
+}
+.items {
+	position: absolute;
+	list-style: none;
+}
+.items li {
+	position: relative;
+	background-image: url(images/Inventory_Back7.png);
+	height: 52px;
+	width: 52px;
+	display: inline-block;
+}
+
+.items li.active {
+	background-image: url(images/Inventory_Back11.png);
+}
+
+.items.ui li i {
+	background-image: url(images/ui_items.png);
+	display: block;
+	height: 32px;
+	width: 32px;
+	margin: 10px;
+}
+
+.items.ui li i.bucket { background-position: 0px 0px; }
+.items.ui li i.chest { background-position: -33px 0px; }
+.items.ui li i.pick_axe { background-position: -66px 0px; }
+.items.ui li i.safe { background-position: 0px -33px; }
+.items.ui li i.trashcan { background-position: -33px -33px; }
+.items.ui li i.wire_cutters { background-position: 0px -66px; }
+.items.ui li i.wrench { background-position: -33px -66px; }
+
+
+.items.blocks li {
+	margin: 2px;
+}
+.items.blocks li i {
+	background-image: url(images/ui_items.png);
+	display: block;
+	height: 32px;
+	width: 32px;
+	margin: 10px;
+}
+
+.block-type-select {
+	height: 50%;
+	width: 50%;
+	background-color: #24587a;
+	border-radius: 11px;
+	border: 2px solid black;
+	position: absolute;
+	top: 30%;
+	left: 50%;
+	margin-left: -25%;
+	padding: 12px 32px;
+	display: none;
+	overflow-y: auto;
+}
+
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<!-- 
+<label class="toggle-label" for="toggle-controls">Toggle Controls</label>
+<input id="toggle-controls" type="checkbox" hidden />
+-->
+<ul id="tools" class="items ui">
+	<li id="block_select" class="active"><i id="active_block" class="block_select" title="Active Block"></i></li>
+	<li><i class="pick_axe" title="Destory Blocks"></i></li>
+	<li><i class="bucket" title="Flood Fill Type"></i></li>
+	<li><i class="wrench" title="Lay Wire"></i></li>
+	<li><i class="wire_cutters" title="Destroy Wire"></i></li>
+</ul>
+<ul id="settings" class="items ui">
+	<li><i class="chest" title="Save"></i></li>
+	<li><i class="safe" title="Load"></i></li>
+	<li><i class="trashcan" title="Reset"></i></li>
+</ul>
+<div id="block-list-container" class="block-type-select">
+	<ul id="block-list" class="items blocks">
+	</ul>
+</div>
+<script>
+	var block_list_container = document.getElementById('block-list-container'),
+		block_list = document.getElementById('block-list');
+		block_select_display = document.getElementById('block_select');
+	
+	var df = document.createDocumentFragment();
+	for( var i = 0; i < 101; i++ ) {
+		// <li class="selected"><i class="block"></i></li>
+		var li = document.createElement('li');
+		if( i === 32 ) {
+			li.className = "active";
+		}
+		li.innerHTML = '<i class="block"></i>';
+		df.appendChild(li);
+	}
+	block_list.appendChild(df);
+	
+	block_select_display.addEventListener('click', function() {
+		var display = block_list_container.style.display;
+		block_list_container.style.display = display === 'block' ? 'none' : 'block';
+	}, false);
+</script>
+</body>
+</html>
