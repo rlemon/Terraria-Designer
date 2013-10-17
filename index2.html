@@ -2,116 +2,7 @@
 <html>
 <head>
 <title>Terraria Designer WIP</title>
-<style>
-@import url(http://fonts.googleapis.com/css?family=Press+Start+2P);
-html, body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-	font-family: 'Press Start 2P', cursive;
-}
-ul,li,div,p,span,i,img{
-	margin: 0;
-	padding: 0;
-}
-button {
-	outline: none !important;
-}
-body {
-    background-color: skyblue;
-	background-image: url(images/Background_92.png);
-	background-position: bottom center;
-	background-repeat: repeat-x;
-}
-#canvas {
-    position: absolute;
-}
-
-.toggle-label {
-	position: absolute;
-	color: #6a6;
-	font-size: 10px;
-	text-shadow: 1px 1px 2px #232;
-	top: 11px;
-	left: 11px;
-}
-#toggle-controls:checked ~ ul {
-	display: none;
-}
-#toggle-controls ~ ul {
-	display: block;
-}
-
-#tools {
-	right: 22px;
-	bottom: 22px;
-}
-
-#settings {
-	left: 22px;
-	bottom: 22px;
-}
-.items {
-	position: absolute;
-	list-style: none;
-}
-.items li {
-	position: relative;
-	background-image: url(images/Inventory_Back7.png);
-	height: 52px;
-	width: 52px;
-	display: inline-block;
-}
-
-.items li.active {
-	background-image: url(images/Inventory_Back11.png);
-}
-
-.items.ui li i {
-	background-image: url(images/ui_items.png);
-	display: block;
-	height: 32px;
-	width: 32px;
-	margin: 10px;
-}
-
-.items.ui li i.bucket { background-position: 0px 0px; }
-.items.ui li i.chest { background-position: -33px 0px; }
-.items.ui li i.pick_axe { background-position: -66px 0px; }
-.items.ui li i.safe { background-position: 0px -33px; }
-.items.ui li i.trashcan { background-position: -33px -33px; }
-.items.ui li i.wire_cutters { background-position: 0px -66px; }
-.items.ui li i.wrench { background-position: -33px -66px; }
-
-
-.items.blocks li {
-	margin: 2px;
-}
-.items.blocks li i {
-	background-image: url(images/ui_items.png);
-	display: block;
-	height: 32px;
-	width: 32px;
-	margin: 10px;
-}
-
-.block-type-select {
-	height: 50%;
-	width: 50%;
-	background-color: #24587a;
-	border-radius: 11px;
-	border: 2px solid black;
-	position: absolute;
-	top: 30%;
-	left: 50%;
-	margin-left: -25%;
-	padding: 12px 32px;
-	display: none;
-	overflow-y: auto;
-}
-
-</style>
+<link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <body>
 <canvas id="canvas"></canvas>
@@ -136,18 +27,101 @@ body {
 	</ul>
 </div>
 <script>
+var TILES = {
+	'dirt': { id:  0},
+	'stone': { id:  1},
+	'iron_ore': { id:  6},
+	'copper_ore': { id:  7},
+	'gold_ore': { id:  8},
+	'silver_ore': { id:  9},
+	'demonite_ore': { id:  22},
+	'ebonstone_block': { id:  25},
+	'wood': { id:  30},
+	'meteorite': { id:  37},
+	'stone_brick': { id:  38},
+	'red_brick': { id:  39},
+	'clay_block': { id:  40},
+	'blue_brick': { id:  41},
+	'green_brick': { id:  43},
+	'pink_brick': { id:  44},
+	'gold_brick': { id:  45},
+	'silver_brick': { id:  46},
+	'copper_brick': { id:  47},
+	'sand_block': { id:  53},
+	'obsidian': { id:  56},
+	'ash_block': { id:  57},
+	'hellstone': { id:  58},
+	'mud_block': { id:  59},
+	'stone_saphire': { id:  63},
+	'stone_ruby': { id:  64},
+	'stone_emerald': { id:  65},
+	'stone_amber': { id:  66},
+	'stone_amethyst': { id:  67},
+	'stone_diamond': { id:  68},
+	'obsidian_brick': { id:  75},
+	'hellstone_brick': { id:  76},
+	'cobalt_ore': { id:  107},
+	'mythril_ore': { id:  108},
+	'adamantite_ore': { id:  111},
+	'ebonsand_block': { id:  112},
+	'pearlsand_block': { id:  116},
+	'pearlstone_block': { id:  117},
+	'pearlstone_brick': { id:  118},
+	'iridescent_brick': { id:  119},
+	'mudstone_block': { id:  120},
+	'cobalt_brick': { id:  121},
+	'mythril_brick': { id:  122},
+	'silt_block': { id:  123},
+	'active_stone_block': { id:  130},
+	'inactive_stone_block': { id:  131},
+	'demonite_brick': { id:  140},
+	'candy_cane_block': { id:  145},
+	'green_candy_cane_block': { id:  146},
+	'snow_block': { id:  147},
+	'snow_brick': { id:  148},
+	'adamantite_beam': { id:  150},
+	'sandstone_brick': { id:  151},
+	'ebonstone_brick': { id:  152},
+	'red_stucco': { id:  153},
+	'yellow_stucco': { id:  154},
+	'green_stucco': { id:  155},
+	'gray_stucco': { id:  156},
+	'ebonwood': { id:  157},
+	'rich_mahogany': { id:  158},
+	'pearlwood': { id:  159},
+	'ice_block': { id:  161},
+	'purple_ice_block': { id:  163},
+	'pink_ice_block': { id:  164},
+	'tin_ore': { id:  166},
+	'lead_ore': { id:  167},
+	'tungsten_ore': { id:  168},
+	'platinum_ore': { id:  169},
+	'tin_brick': { id:  175},
+	'tungsten_brick': { id:  176},
+	'platinum_brick': { id:  177},
+	'cactus': { id:  188},
+	'glowing_mushroom': { id:  190},
+	'slime_block': { id:  193},
+	'flesh_block': { id:  195},
+	'rain_cloud': { id:  196}
+};
 	var block_list_container = document.getElementById('block-list-container'),
 		block_list = document.getElementById('block-list');
 		block_select_display = document.getElementById('block_select');
 	
 	var df = document.createDocumentFragment();
-	for( var i = 0; i < 101; i++ ) {
+	for( var tile in TILES ) {
+		if( !TILES.hasOwnProperty(tile)) {
+			continue;
+		}
+		
 		// <li class="selected"><i class="block"></i></li>
 		var li = document.createElement('li');
-		if( i === 32 ) {
+		if( tile === 'dirt' ) {
 			li.className = "active";
 		}
-		li.innerHTML = '<i class="block"></i>';
+		li.title = tile.replace(/_/g, ' ');
+		li.innerHTML = '<i class="block Item_' + TILES[tile].id + '"></i>';
 		df.appendChild(li);
 	}
 	block_list.appendChild(df);
